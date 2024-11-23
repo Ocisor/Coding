@@ -16,5 +16,5 @@ class LinkedList:
         self.list = [Node("",(i+1)) for i in range(self.length)]
 
     def appendNode(self):
-        
+        pass
 
