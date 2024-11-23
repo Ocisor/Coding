@@ -11,10 +11,13 @@ class Node:
         self.data = newData
 
 class LinkedList:
-    def __init__(self, length):
+    def __init__(self, length, name):
+        self.name = name
         self.length = length
         self.list = [Node("",(i+1)) for i in range(self.length)]
 
     def appendNode(self):
         pass
-
+        #Maybe create a new instance of the linked list object. But with an increased length of one.
+        #For this reason. The actual variable name shouldnt matter, as it will be changed. But instead,
+        #pass in the name you want the linked list to have as a parameter.
