@@ -13,3 +13,20 @@ table {
 th, td {
     text-align: center
 }
+
+/* This is an id. 
+an id can only be used by one element on a page.*/
+#myHeader {
+    background-color: lightblue;
+    color: black;
+    padding: 40px;
+    text-align: center;
+}
+
+/* This is a class.
+a class can be used by any number of elements on a page.*/
+.city {
+    background-color: tomato;
+    color: white;
+    padding: 10px;
+}
