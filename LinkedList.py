@@ -22,10 +22,17 @@ class LinkedList:
 
     def appendNode(self):
         self.templist = [Node("",i+1) for i in range(self.length + 1)]
-        self.tempist = [Node(self.list)]
+        for j in range(self.length):
+            self.list[j] = self.templist[j]
+        self.length += 1
+        self.list = self.templist
         
-        #Maybe create a new instance of the linked list object. But with an increased length of one.
-        #For this reason. The actual variable name shouldnt matter, as it will be changed. But instead,
-        #pass in the name you want the linked list to have as a parameter.
+    def display(self):
+        for object in self.list:
+            print(f"Data is: {object.data}\nPointer is: {object.pointer}")
+        print("display complete")
 
 l1 = LinkedList(3)
+l1.display()
+l1.appendNode()
+l1.display()
