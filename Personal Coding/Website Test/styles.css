@@ -1,0 +1,15 @@
+/*
+Comments are written as follows
+*/
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse; 
+    border-radius: 10px;
+  }
+table {
+    width:100%;
+}
+th, td {
+    text-align: center
+}
