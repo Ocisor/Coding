@@ -36,5 +36,3 @@ l1 = LinkedList(3)
 l1.display()
 l1.appendNode()
 l1.display()
-
-#Test bcs repo name change
