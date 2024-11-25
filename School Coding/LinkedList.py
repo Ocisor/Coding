@@ -22,19 +22,16 @@ class LinkedList:
         self.sPoint = 0 #Declaring start pointer
         self.fPoint = 0 #Declaring free pointer
 
+    def display(self):
+        for object in self.list:
+            print(f"Data is: {object.data}\nPointer is: {object.pointer}")
+        print("display complete")
+
+'''
     def appendNode(self):
         self.templist = [Node("",i+1) for i in range(self.length + 1)]
         for j in range(self.length):
             self.list[j] = self.templist[j]
         self.length += 1
         self.list = self.templist
-        
-    def display(self):
-        for object in self.list:
-            print(f"Data is: {object.data}\nPointer is: {object.pointer}")
-        print("display complete")
-
-l1 = LinkedList(3)
-l1.display()
-l1.appendNode()
-l1.display()
+'''
