@@ -4,7 +4,7 @@ def insertionSort(data):
         temp = data[i]
         print(temp) #Sets the piece of data that needs to be sorted to the variable temp.
         checkPos = i-1 #Checking the position before the piece of data being re-inserted. checkPos ---> Check Position
-        while checkPos >= 0 and temp < data[checkPos]: #Checking that the checkPos is still within bounds and if should switch.
+        while checkPos >= 0 and temp < data[i]: #Checking that the checkPos is still within bounds and if should switch.
             data[checkPos + 1] = data[checkPos] # Moving each piece of data forward one.
             checkPos -= 1
             print("Looped") # Decreasing the position being checked as to loop through all of the already "sorted" points.
