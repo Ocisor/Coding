@@ -25,3 +25,14 @@ class Stack:
             self.DisplayStack()
         else:
             print("Stack is empty. Cannot Pop.")
+
+#s1 = [size,[],0]
+s1 = Stack(3)
+s1.Push("Sam")
+s1.Push("Bob")
+s1.Push("W")
+s1.Push("This wont actually get pushed the stack is full")
+s1.Pop()
+s1.Pop()
+s1.Push("1")
+s1.Push("2")

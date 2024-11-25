@@ -11,7 +11,7 @@ class Node: # Initialising the Node class
     def uData(self,newData): # uData stands for update Data
         self.data = newData
 
-    def dis(self): #Displays attributes
+    def display(self): #Displays attributes
         print(f"Data is: {self.data}\nPointer is: {self.pointer}")
 
 class LinkedList:
