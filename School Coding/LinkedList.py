@@ -19,6 +19,8 @@ class LinkedList:
         #Initialising the linked lit with parameter for length. Creates a list of Node objects.
         self.length = length
         self.list = [Node("",(i+1)) for i in range(self.length)]
+        self.sPoint = 0 #Declaring start pointer
+        self.fPoint = 0 #Declaring free pointer
 
     def appendNode(self):
         self.templist = [Node("",i+1) for i in range(self.length + 1)]
