@@ -25,5 +25,3 @@ class Stack:
             self.DisplayStack()
         else:
             print("Stack is empty. Cannot Pop.")
-
-#Check to see if Github is blocked.
