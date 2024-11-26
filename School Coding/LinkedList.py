@@ -16,7 +16,7 @@ class Node: # Initialising the Node class
 
 class LinkedList:
     def __init__(self, length):
-        #Initialising the linked lit with parameter for length. Creates a list of Node objects.
+        #Initialising the linked lit with parameter for length. Creates a lw3ist of Node objects.
         self.len = length
         self.list = [Node("",(i+1)) for i in range(self.len)]
         self.list[self.len-1].pointer = -1
@@ -46,10 +46,15 @@ class LinkedList:
     
 
     def addData(self,data):
+        self.updFree()
         if self.fPoint == -1:
             print("List is full. Remove data or append a new node.")
         else:
-            self.list[self.fPoint] = data
+            for i in range(self.len):
+                if self.list[i].pointer == -1:  
+                    print(self.list[self.fPoint].index())
+                    self.list[i].pointer = self.list[self.fPoint].index()
+
 
 '''
     def appendNode(self):
@@ -62,3 +67,4 @@ class LinkedList:
 
 l1 = LinkedList(5)
 l1.display()
+l1.addData()
