@@ -44,13 +44,20 @@ class LinkedList:
 
     def addData(self,data):
         self.updFree()
-        if self.fPoint == -1:
+        print(f"Before: ")
+        self.display()
+        if self.fPoint == -1:#If the list is full
             print("List is full. Remove data or append a new node.")
-        else:
+        elif self.fPoint == self.sPoint:#If the list is empty
+            self.list[self.sPoint].data = data
+            self.list[self.sPoint].pointer = -1
+        else:#Otherwise
             for i in range(self.len):
                 if self.list[i].pointer == -1:  
-                    print(self.list[self.fPoint].index())
-                    self.list[i].pointer = self.list[self.fPoint].index()
+                    self.list[i].pointer = self.fPoint
+        print("after: ")
+        self.display()
+        print("\n")
 
 
 '''
@@ -63,5 +70,5 @@ class LinkedList:
 '''
 
 l1 = LinkedList(5)
-l1.display()
-l1.addData()
+l1.addData(5)
+l1.addData(6)
