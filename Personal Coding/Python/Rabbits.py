@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 
-A, B, C, F = 1.2, 0.5, 0.5, 0.2
+A, B, C, F = 0.8, 1, 0.5, 0.8
 timeStep = 0.01
-STEPS = 1000
+STEPS = 3
 x, y = int(input("Starting X value: ")), int(input("Starting Y value: ") )
 x_values = [0] * STEPS
 y_values = [0] * STEPS
@@ -13,5 +13,8 @@ for day in range(STEPS):
     x = x_values[day]
     y = y_values[day]
 
+
+print(x_values)
+print(y_values)
 plt.scatter(x_values,y_values)
 plt.show()
