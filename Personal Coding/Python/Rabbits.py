@@ -1,7 +1,9 @@
+import matplotlib.pyplot as plt
+
 A, B, C, F = 1, 1, 1, 1
-timeStep = 0.001
+timeStep = 0.0001
 STEPS = 1000
-x, y = input("Starting X value: "), input("Starting Y value: ") 
+x, y = int(input("Starting X value: ")), int(input("Starting Y value: ") )
 x_values = [0] * STEPS
 y_values = [0] * STEPS
 
