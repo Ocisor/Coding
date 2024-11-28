@@ -30,9 +30,6 @@ class LinkedList:
             print(f"Current node data is: {self.list[currentNode].data}\nPoints to: {self.list[currentNode].pointer}\n")
             currentNode = self.list[currentNode].pointer
 
-
-
-
     def updFree(self): #Not going to be called outside of the class. Just used to update the freePointer
         index = 0
         flag = False
