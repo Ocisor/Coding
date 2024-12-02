@@ -1,0 +1,16 @@
+//Global objects in node JS include, 
+//setTimeout();
+//clearTimeout();
+
+//setInterval();
+//clearInterval();
+
+//in JS, window is a global object
+//so, window.setTimeout();
+
+//However, In Node JS, the window object is not defined. And instead uses the object
+//global
+
+//This means that any variables created REMAIN LOCAL TO THIS FILE.
+//This is unlike base JS where everything is global.
+//Obviously this is better.
