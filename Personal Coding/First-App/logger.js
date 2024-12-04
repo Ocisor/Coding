@@ -5,9 +5,9 @@ function log(message) {
     console.log(message)
 }
 
-//This is saying that a METHOD called 'log' is being added to an 'exports' object 
+//This is saying that a METHOD called 'log' is being added to an 'exports' attribute of the module object 
 //And setting it to the log function defined above.
-module.exports.log = log; 
+module.exports.log = log;  //The .log part could be replaced with anything could be       module.exports.foshijd = log;
 
 //The same thing for variables can be done.
 
