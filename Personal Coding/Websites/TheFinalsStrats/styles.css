@@ -6,6 +6,16 @@ h1 {
     font-size : 50px   
 }
 
+h2 {
+    text-align: center; /* Centers the title text horizontally */
+    margin-top: 220px; /* Adjust as needed to position below the banner */
+    font-size: 24px; /* Title font size */
+    font-weight: bold; /* Makes the title bold */
+    color: rgb(206, 14, 65); /* Matches the banner color */
+    position: relative; /* Ensures it stays above the flexbox */
+    z-index: 1; /* Keeps it above scrolling content */
+}
+
 .banner { 
     width: 100%; 
     background-color: rgb(206, 14, 65); 
@@ -50,4 +60,11 @@ h1 {
     flex-direction: row;
     height: 200px;
     align-items: center;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    padding: 0px;
+    scrollbar-width: none;
+}
+.flex-container::-webkit-scrollbar {
+    display: none;
 }
