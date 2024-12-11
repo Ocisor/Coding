@@ -6,16 +6,6 @@ h1 {
     font-size : 50px   
 }
 
-.box {
-    width : 100vw -15;
-    border: 15px solid rgb(226, 13, 69);
-    padding: 50px;
-    margin: 0px;
-    background-color: rgb(226, 13, 69);
-    box-sizing: border-box;
-    border-radius: 10px;
-}
-
 .banner { 
     width: 100%; 
     background-color: rgb(226, 13, 69); 
@@ -29,7 +19,28 @@ h1 {
     z-index: 1000;
 }
 
+.box {
+    width : 100vw;
+    border: 15px solid rgb(226, 13, 69);
+    padding: 50px;
+    margin: 10px;
+    background-color: rgb(226, 13, 69);
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
 .flex-container {
+    margin-top: 100px; /* Adjust this to prevent overlap with the banner */
     display: flex;
     flex-direction: row;
-  }
+    justify-content: center;
+    height: 200px;
+    align-items: center;
+}
+
+.scroll-container { 
+    overflow-x: auto; /* Allows horizontal scrolling */ 
+    white-space: nowrap; /* Prevents wrapping to the next line */ 
+    margin-top: 100px; /* Adjust this to prevent overlap with the banner */ 
+    padding: 10px; /* Add some padding if needed */
+}
