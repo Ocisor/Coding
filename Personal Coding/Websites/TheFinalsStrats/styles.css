@@ -9,6 +9,17 @@ h1 {
     font-size : 50px   
 }
 
+.subtitle-button {
+    border: none;
+    background-color: rgb(163, 10, 51);
+    color: #ffe7e7;
+}
+
+.subtitle-button:hover {
+    background-color: rgb(126, 10, 41);
+    color: #ffffff;
+}
+
 .subtitleBelowBanner {
     text-align: center; /* Centers the title text horizontally */
     margin-top: 220px; /* Adjust as needed to position below the banner */
@@ -59,6 +70,10 @@ h1 {
     justify-content: center; /* Centers content horizontally */
     align-items: center; /* Centers content vertically */
     text-align: center; /* Ensures multi-line text is centered */
+}
+
+.box:hover {
+    transform: scale(1.05);
 }
 
 .flex-container {
