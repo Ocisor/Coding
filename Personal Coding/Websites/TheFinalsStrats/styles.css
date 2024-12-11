@@ -20,7 +20,7 @@ h1 {
 }
 
 .box {
-    width : 100vw;
+    min-width: 100vw;
     border: 15px solid rgb(226, 13, 69);
     padding: 50px;
     margin: 10px;
