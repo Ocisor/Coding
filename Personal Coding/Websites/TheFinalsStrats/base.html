@@ -23,5 +23,14 @@
         <div class ="box"><p>Lorem Ipsum and So forth 3</p></div>
         <div class ="box"><p>Lorem Ipsum and So forth 3</p></div>
     </div>
+
+    <script>
+        document.addEventListener('wheel', function(event) {
+            if (event.deltaX < 0 && window.scrollX === 0) {
+                event.preventDefault();
+            }
+        }, {passive: false});
+    </script>
+    
 </body>
 </html>

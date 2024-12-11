@@ -8,8 +8,20 @@ h1 {
 
 .banner { 
     width: 100%; 
-    background-color: rgb(226, 13, 69); 
-    color: white; 
+    background-color: rgb(206, 14, 65); 
+    color: #ffe7e7; 
+    text-align: center; 
+    padding: 10px 0; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    z-index: 1000;
+}
+
+.bannerShadow {
+    width: 100%; 
+    background-color: rgb(0, 0, 0, 0.5); 
     text-align: center; 
     padding: 10px 0; 
     position: fixed; 
@@ -20,20 +32,21 @@ h1 {
 }
 
 .box {
+    
+    color: #ffe7e7; 
     min-width: 30vw;
-    border: 15px solid rgb(226, 13, 69);
+    border: 15px solid rgb(206, 14, 65);
     padding: 50px;
     margin: 10px;
-    background-color: rgb(226, 13, 69);
+    background-color: rgb(206, 14, 65);
     box-sizing: border-box;
     border-radius: 10px;
 }
 
 .flex-container {
-    margin-top: 100px; 
+    margin-top: 200px; 
     display: flex;
     flex-direction: row;
-    justify-content: center;
     height: 200px;
     align-items: center;
 }
