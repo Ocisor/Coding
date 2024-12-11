@@ -13,6 +13,7 @@ h1 {
     border: none;
     background-color: rgb(163, 10, 51);
     color: #ffe7e7;
+    transition: all 0.3s ease;
 }
 
 .subtitle-button:hover {
@@ -56,6 +57,7 @@ h1 {
 }
 
 .box {
+    user-select: none;
     font-size: 30px;
     color: #ffe7e7; 
     min-width: 30vw;
@@ -70,17 +72,26 @@ h1 {
     justify-content: center; /* Centers content horizontally */
     align-items: center; /* Centers content vertically */
     text-align: center; /* Ensures multi-line text is centered */
+    transition: all 0.1s ease;
 }
 
 .box:hover {
+    color: #ffffff;
     transform: scale(1.05);
 }
+
+.box:active {
+    background-color: rgb(169, 10, 53);
+    border: rgb(169, 10, 53);
+    transition: background-color 0.05s ease, border 0.05s ease;
+}
+
 
 .flex-container {
     margin-top: 0px; 
     display: flex;
     flex-direction: row;
-    height: 500px;
+    height: 550px;
     align-items: center;
     overflow-x: scroll;
     overflow-y: hidden;
