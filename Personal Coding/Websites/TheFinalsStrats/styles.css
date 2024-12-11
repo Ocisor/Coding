@@ -1,6 +1,30 @@
-div {
-    width: 90vw;
-    border: 15px solid green;
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+    font-size : 50px   
+}
+
+.box {
+    width : 100vw -15;
+    border: 15px solid rgb(226, 13, 69);
     padding: 50px;
-    margin: 20px;
-  }
+    margin: 0px;
+    background-color: rgb(226, 13, 69);
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.banner { 
+    width: 100%; 
+    background-color: rgb(226, 13, 69); 
+    color: white; 
+    text-align: center; 
+    padding: 20px 0; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    right: 0; 
+    z-index: 1000;
+}
