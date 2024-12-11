@@ -20,7 +20,7 @@ h1 {
 }
 
 .box {
-    min-width: 100vw;
+    min-width: 30vw;
     border: 15px solid rgb(226, 13, 69);
     padding: 50px;
     margin: 10px;
@@ -36,13 +36,4 @@ h1 {
     justify-content: center;
     height: 200px;
     align-items: center;
-}
-
-.scroll-container { 
-    overflow-x: auto; /* Allows horizontal scrolling */ 
-    white-space: nowrap; /* Prevents wrapping to the next line */ 
-    margin-top: 100px; /* Adjust this to prevent overlap with the banner */ 
-    padding: 10px; /* Add some padding if needed */
-    scroll-snap-type: x mandatory;
-    padding-left: 20px;
 }
