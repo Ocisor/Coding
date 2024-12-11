@@ -30,7 +30,7 @@ h1 {
 }
 
 .flex-container {
-    margin-top: 100px; /* Adjust this to prevent overlap with the banner */
+    margin-top: 100px; 
     display: flex;
     flex-direction: row;
     justify-content: center;
