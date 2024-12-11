@@ -43,4 +43,6 @@ h1 {
     white-space: nowrap; /* Prevents wrapping to the next line */ 
     margin-top: 100px; /* Adjust this to prevent overlap with the banner */ 
     padding: 10px; /* Add some padding if needed */
+    scroll-snap-type: x mandatory;
+    padding-left: 20px;
 }
