@@ -6,7 +6,7 @@ h1 {
     font-size : 50px   
 }
 
-h2 {
+.subtitleBelowBanner {
     text-align: center; /* Centers the title text horizontally */
     margin-top: 220px; /* Adjust as needed to position below the banner */
     font-size: 24px; /* Title font size */
@@ -42,20 +42,21 @@ h2 {
 }
 
 .box {
-    
+    font-size: 30px;
     color: #ffe7e7; 
     min-width: 30vw;
     min-height: 200px;
-    border: 15px solid rgb(206, 14, 65);
-    padding: 50px;
+    border: 5px solid rgb(206, 14, 65);
+    padding: 20px;
     margin: 10px;
     background-color: rgb(206, 14, 65);
     box-sizing: border-box;
-    border-radius: 10px;
+    border-radius: 20px;
+    
 }
 
 .flex-container {
-    margin-top: 200px; 
+    margin-top: 0px; 
     display: flex;
     flex-direction: row;
     height: 200px;
@@ -64,6 +65,7 @@ h2 {
     overflow-y: hidden;
     padding: 0px;
     scrollbar-width: none;
+    border-radius: 10px;
 }
 .flex-container::-webkit-scrollbar {
     display: none;
