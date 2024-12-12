@@ -13,7 +13,7 @@ class month:
     def __init__(self, len):
         self.days = [day(int(input(f"Day {i} temp: ")),int(input(f"Night {i} temp: "))) for i in range(len)]
         self.len = len
-        self.avrg = [0,0]
+        self.avrg = [0,0] # [average day temp  ,  average night temp]
         self.max = [self.days[0].reValue(0),self.days[0].reValue(1)]
         self.min = [self.days[0].reValue(0),self.days[0].reValue(1)]
     
@@ -41,4 +41,6 @@ class month:
     
 June = month(3)
 print(June.findAvg())
+print(f"Max temperatures are : {June.maxTemp()}")
+print(f"Min temperatures are : {June.minTemp()}")
     
