@@ -22,13 +22,13 @@ h1 {
 }
 
 .subtitleBelowBanner {
-    text-align: center; /* Centers the title text horizontally */
-    margin-top: 220px; /* Adjust as needed to position below the banner */
-    font-size: 24px; /* Title font size */
-    font-weight: bold; /* Makes the title bold */
-    color: #ffe7e7; /* Matches the banner color */
-    position: relative; /* Ensures it stays above the flexbox */
-    z-index: 1; /* Keeps it above scrolling content */
+    text-align: center; 
+    margin-top: 220px; 
+    font-size: 24px; 
+    font-weight: bold; 
+    color: #ffe7e7; 
+    position: relative; 
+    z-index: 1; 
 }
 
 .banner { 
@@ -73,10 +73,10 @@ h1 {
     background-color: rgb(206, 14, 65);
     box-sizing: border-box;
     border-radius: 20px;
-    display: flex; /* Enables Flexbox */
-    justify-content: center; /* Centers content horizontally */
-    align-items: center; /* Centers content vertically */
-    text-align: center; /* Ensures multi-line text is centered */
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
     transition: all 0.1s ease;
 }
 
@@ -88,6 +88,7 @@ h1 {
 .box:active {
     background-color: rgb(169, 10, 53);
     border: rgb(169, 10, 53);
+    font-size: 100px;
     transition: background-color 0.05s ease, border 0.05s ease;
 }
 
