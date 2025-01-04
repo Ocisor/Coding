@@ -1,11 +1,12 @@
 #Importing libraries to automatically fill out the arrays.
 import random
 
-tempsDay = ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",]
-tempsNight = ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",]
+#Initialising an array of empty values.
+tempsDay = ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
+tempsNight = ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
 
 
-
+#Function to check if a value is an integer.
 def notInt(entry):
   try:
     int(entry)
@@ -14,19 +15,19 @@ def notInt(entry):
     return True
 
 
-def autoRecordTemps(tempsDay, tempsNight):
+def autoRecordTemps(tempsDay, tempsNight): #Automatically fill out the arrays with data for convenience
   for index in range (29):
     tempsDay[index] = random.randint(15,26)
     tempsNight[index] = random.randint(5,tempsDay[index])
 
 
-def recordTemps(tempsDay, tempsNight):
+def recordTemps(tempsDay, tempsNight): #Manual option to record temps
   for index in range (29):
     tempsDay[index] = input(f"What were the midday temperatures for day {index}\n")
     tempsNight[index] = input(f"What were the midnight temperatures for day {index}\n")
 
 
-def validateTemps(tempsDay, tempsNight):
+def validateTemps(tempsDay, tempsNight): #Validation of each index of the array AFTER entry
   for index in range (29):
     while notInt(tempsDay[index]):
       tempsDay[index] = input(f"Invalid midday data-type on day {index}. Re-input\n")
@@ -40,7 +41,7 @@ def validateTemps(tempsDay, tempsNight):
       tempsNight[index] = input(f"Data outside of expected range. Please re-input.\n")
 
 
-def averageTemps(tempsDay, tempsNight):
+def averageTemps(tempsDay, tempsNight): #Averages the temps of both day and night
   dayAv,nightAv = 0,0
   for index in range (29):
     dayAv += tempsDay[index]
@@ -51,6 +52,8 @@ def averageTemps(tempsDay, tempsNight):
   print(f"The midday average this month was {dayAv}.")
   print(f"The midnight average this month was {nightAv}.")
 
+
+#Test code to make the program run. Not necessary.
 while True:
   entryType = input("Manual data entry? (y/n)\n")
   if entryType == "y" or entryType == "n":
