@@ -1,8 +1,9 @@
+#Initialising variables for the program to run
 maxTemp = 0.0
 minTemp = 99.0
 outOfRange = 0
 
-def dataCheck(data):
+def dataCheck(data):#Checks data's ranges
   if data < 36:
     print("Temperature too low!")
     return(1)
@@ -13,9 +14,9 @@ def dataCheck(data):
     print("Good temps.")
     return(0)
 
-for i in range(0,17):
+for i in range(0,17): #Checks 17 values
   dataStore = input("Input data")
-
+  #Checking and setting max and min temperatures
   if dataStore > maxTemp:
     maxTemp = dataStore
   if dataStore < minTemp:
@@ -23,8 +24,9 @@ for i in range(0,17):
 
   outOfRange = outOfRange + dataCheck(dataStore)
 
-range = maxTemp-minTemp
+range = maxTemp-minTemp #Calculating range
 
+#Printing summary of data
 print("Max, min and range of temps are:")
 print(f"{maxTemp}\n{minTemp}\n{range}")
 
