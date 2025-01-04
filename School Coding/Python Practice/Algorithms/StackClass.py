@@ -7,32 +7,22 @@ class Stack:
         self.data = ["" for i in range(self.size)]
         self.top = 0 # A pointer for the top of the stack.
     
+    #Getter for the data
     def DisplayStack(self):
         print(self.data)
     
     def Push(self, pData): # (pData is pushed Data)
-        if self.top < self.size:
-            self.data[self.top] = pData
+        if self.top < self.size: #Checks there is room
+            self.data[self.top] = pData #Adds new data at the top of the stack. Designated by the pointer
             self.top += 1
-            self.DisplayStack()
+            self.DisplayStack() #Displaying the updated stack
         else:
             print("Stack is full. Cannot Push.")
     
     def Pop(self):
         if self.top > 0:
             self.top -= 1
-            print(f"Popped value {self.data[self.top]}")
-            self.DisplayStack()
+            print(f"Popped value {self.data[self.top]}") #Returning the popped value by printing it
+            self.DisplayStack() #Displaying the updated stack
         else:
             print("Stack is empty. Cannot Pop.")
-
-#s1 = [size,[],0]
-s1 = Stack(3)
-s1.Push("Sam")
-s1.Push("Bob")
-s1.Push("W")
-s1.Push("This wont actually get pushed the stack is full")
-s1.Pop()
-s1.Pop()
-s1.Push("1")
-s1.Push("2")
