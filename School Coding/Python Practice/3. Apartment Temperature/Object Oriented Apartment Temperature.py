@@ -13,7 +13,7 @@ class room:
     
     def takeTemperature(self, newTemp):
         while newTemp > 45 or newTemp < 30:
-            print("Eroneous input. (or the baby is dead)")
+            print("Eroneous input.")
             newTemp = int(input("Please re-input temperature: "))
         self.temperatures.append(newTemp)
         if newTemp < 21.5:

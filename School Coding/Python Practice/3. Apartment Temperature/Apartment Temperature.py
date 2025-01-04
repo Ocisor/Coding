@@ -29,6 +29,6 @@ print("Max, min and range of temps are:")
 print(f"{maxTemp}\n{minTemp}\n{range}")
 
 if outOfRange > 2:
-  print("The baby's temperature went beyond the acceptable range more than three times.")
+  print("The room's temperature went beyond the acceptable range more than three times.")
 if range > 1:
-  print("The baby's temperature varies too much. ")
+  print("The room's temperature varies too much. ")
