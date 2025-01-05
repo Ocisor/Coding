@@ -59,16 +59,3 @@ class LinkedList:
         self.display()
         print("\n")
 
-
-'''
-    def appendNode(self):
-        self.templist = [Node("",i+1) for i in range(self.len + 1)]
-        for j in range(self.len):
-            self.list[j] = self.templist[j]
-        self.len += 1
-        self.list = self.templist
-'''
-
-l1 = LinkedList(5)
-l1.addData(5)
-l1.addData(6)
