@@ -1,6 +1,2 @@
-a = ["W","a"]
-
-if a:
-    print("True")
-if not a:
-    print("False")
+A = float(input("aaaa: "))
+A += 0.1

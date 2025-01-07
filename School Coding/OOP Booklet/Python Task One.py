@@ -24,7 +24,10 @@ class Bank:
         self.__latestAccount = -1
 
     def accIndex(self, number):
-        for i in range(len())
+        for i in range(len(self.__data)):
+            if self.__data[i].getNumber() == number:
+                return i
+        return None
 
     def login(self):
         givenNum = int(input("Input Account Number: "))
@@ -38,5 +41,18 @@ class Bank:
             print("Error No Accounts!")
 
     def deposit(self, number):
-        depositAmount = int(input("Input deposit amount: "))
-        self.
+        depositAmount = float(input("Input deposit amount: "))
+        #Could throw an error if accIndex returned None. But won't because this can only be accessed while logged in.
+        currentBalance = self.__data[self.accIndex(number)].getBalance()
+        self.__data[self.accIndex(number)].setBalance(currentBalance + depositAmount)
+    
+    def withdraw(self, number):
+        withdrawalAmount = float(input("Input withdrawal amount: "))
+        currentBalance = self.__data[self.accIndex(number)].getBalance()
+        self.__data[self.accIndex(number)].setBalance(currentBalance - withdrawalAmount)
+    
+    def checkBalance(self, number):
+        print(f"You have £{self.__data[self.accIndex(number)].getBalance()} in your account.")
+
+    def addAccount(self):
+        self.__data.append(Account())
