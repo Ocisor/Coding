@@ -55,4 +55,12 @@ class Bank:
         print(f"You have £{self.__data[self.accIndex(number)].getBalance()} in your account.")
 
     def addAccount(self):
-        self.__data.append(Account())
+        if self.__latestAccount == -1:
+            self.__data.append(Account(0,input("Please input a password: "), 0))
+            print(f"Your bank number is 0.")
+            self.__latestAccount += 1
+        else:
+            self.__data.append(Account((self.__latestAccount + 1),input("Please input a password: "), 0))
+            print(f"Your bank number is {self.__latestAccount + 1}")
+            self.__latestAccount += 1
+    
