@@ -64,3 +64,35 @@ class Bank:
             print(f"Your bank number is {self.__latestAccount + 1}")
             self.__latestAccount += 1
     
+    def main():
+        bank = Bank()
+        loggedIn = False
+        quitting = False
+        while not loggedIn and not quitting:
+            response = input("Do you have an account? (y/n/quit): ")
+            if response == "y":
+                account = bank.login()
+                if account != -1:
+                    loggedIn = True
+            elif response == "n":
+                bank.addAccount()
+            elif response == "quit":
+                quitting = True
+            
+        while not quitting:
+            option = str(input("Press 1 to check your balance\nPress 2 to deposit money\nPress 3 to withdraw money\nPress 4 to exit: "))
+            match option:
+                case "1":
+                    bank.checkBalance(account)
+                case "2":
+                    bank.deposit(account)
+                    bank.checkBalance(account)
+                case "3":
+                    bank.withdraw(account)
+                    bank.checkBalance(account)
+                case "4":
+                    quitting = True
+                case _:
+                    print("Invalid option selected.")
+    if __name__ == "__main__":
+        main()
