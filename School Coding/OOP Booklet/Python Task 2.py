@@ -3,6 +3,9 @@ class Customer:
         self.__roomBooking = roomBooking
         self.__name = name
         self.__feedback = 0
+    
+    def getBooking(self):
+        return self.__roomBooking
 
 class Room:
     def __init__(self, number, size, clean):
@@ -10,6 +13,12 @@ class Room:
         self.__size = size
         self.__occupants = []
         self.__clean = clean
+    
+    def addOccupant(self, occupantIn):
+        pass
+    
+    def removeOccupant(room, occupantOut):
+        pass
 
 class Hotel:
     def __init__(self, rooms):
@@ -21,19 +30,27 @@ class Hotel:
 class Manager:
     def __init__(self, name):
         self.__name = name
+    
+    def takeFeedback(manager, customer):
+        pass
 
 class Cleaner:
     def __init__(self, name):
         self.name = name
 
+    def cleanRooms(cleaner, hotel):
+        pass
+
 class Receptionist:
     def __init__(self, name):
         self.__name = name 
     
-    def checkIn(receptionist, hotel, customer):
-        pass
+    def checkIn(self, hotel, customer):
+        #Call addOccupant from room
+        room = customer.getBooking()
     
     def checkOut(receptionist, hotel, customer, manager):
+        #Call removeOccupant from room
         pass
 
 def main():
