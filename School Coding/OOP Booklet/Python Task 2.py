@@ -6,6 +6,11 @@ class Customer:
     
     def getBooking(self):
         return self.__roomBooking
+    def getName(self):
+        return self.__name
+    def getFeedback(self):
+        return self.__feedback
+
 
 class Room:
     def __init__(self, number, size, clean):
@@ -14,11 +19,21 @@ class Room:
         self.__occupants = []
         self.__clean = clean
     
+    def getNumber(self):
+        return self.__number
+    def getSize(self):
+        return self.__size
+    def getOccupants(self):
+        return self.getOccupants
+    def isClean(self):
+        return self.__clean
+    
     def addOccupant(self, occupantIn):
-        
+        self.__occupants.append(occupantIn.getName())
     
     def removeOccupant(room, occupantOut):
         pass
+
 
 class Hotel:
     def __init__(self, rooms):
@@ -27,19 +42,28 @@ class Hotel:
     def checkRooms(self):
         return self.__rooms
     
+
 class Manager:
     def __init__(self, name):
         self.__name = name
     
+    def getName(self):
+        return self.__name
+
     def takeFeedback(manager, customer):
         pass
+
 
 class Cleaner:
     def __init__(self, name):
         self.name = name
 
+    def getName(self):
+        return self.__name
+
     def cleanRooms(cleaner, hotel):
         pass
+
 
 class Receptionist:
     def __init__(self, name):
@@ -47,11 +71,16 @@ class Receptionist:
     
     def checkIn(self, hotel, customer):
         #Call addOccupant from room
-        room = customer.getBooking()
+        roomNo = customer.getBooking()
+        hotel.checkRooms()[roomNo].addOccupant(customer)
     
     def checkOut(receptionist, hotel, customer, manager):
         #Call removeOccupant from room
         pass
+
+
+
+
 
 def main():
     room1 = Room(1, 1, False)
