@@ -10,6 +10,8 @@ class Customer:
         return self.__name
     def getFeedback(self):
         return self.__feedback
+    def updFeedback(self):
+        self.__feedback += 1
 
 
 class Room:
@@ -24,15 +26,26 @@ class Room:
     def getSize(self):
         return self.__size
     def getOccupants(self):
-        return self.getOccupants
+        return self.__occupants
     def isClean(self):
         return self.__clean
+    def listOccupants(self):
+        for count, occupant in enumerate(self.__occupants):
+            print(f"Occupant no.{count} is {occupant.getName()}.")    
     
     def addOccupant(self, occupantIn):
-        self.__occupants.append(occupantIn.getName())
-    
-    def removeOccupant(room, occupantOut):
-        pass
+        self.__occupants.append(occupantIn)
+        if not self.__clean:
+            occupantIn.updFeedback()
+        if len(self.getOccupants()) > self.getSize():
+            occupantIn.updFeedback()
+
+    def removeOccupant(self, occupantOut):
+        for index, occupant in enumerate(self.getOccupants()):
+            if occupant == occupantOut:
+                del self.__occupants[index]
+            else:
+                print("ERROR NO SUCH OCCUPANT")
 
 
 class Hotel:
@@ -50,7 +63,7 @@ class Manager:
     def getName(self):
         return self.__name
 
-    def takeFeedback(manager, customer):
+    def takeFeedback(self, manager, customer):
         pass
 
 
@@ -61,7 +74,7 @@ class Cleaner:
     def getName(self):
         return self.__name
 
-    def cleanRooms(cleaner, hotel):
+    def cleanRooms(self, hotel):
         pass
 
 
@@ -69,14 +82,19 @@ class Receptionist:
     def __init__(self, name):
         self.__name = name 
     
+    def getName(self):
+        return self.__name
+
     def checkIn(self, hotel, customer):
         #Call addOccupant from room
         roomNo = customer.getBooking()
         hotel.checkRooms()[roomNo].addOccupant(customer)
     
-    def checkOut(receptionist, hotel, customer, manager):
+    def checkOut(self, hotel, customer, manager):
         #Call removeOccupant from room
-        pass
+        roomNo = customer.getBooking()
+        hotel.checkRooms()[roomNo].removeOccupant(customer)
+        manager.takeFeedback(manager, customer)
 
 
 
