@@ -15,7 +15,7 @@ class Room:
         self.__clean = clean
     
     def addOccupant(self, occupantIn):
-        pass
+        
     
     def removeOccupant(room, occupantOut):
         pass
