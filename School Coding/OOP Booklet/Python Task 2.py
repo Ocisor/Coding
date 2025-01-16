@@ -64,7 +64,15 @@ class Manager:
         return self.__name
 
     def takeFeedback(self, manager, customer):
-        pass
+        match customer.getFeedback():
+            case 0:
+                print(f"{self.getName()} says: {customer.getName()} was happy with their stay.")
+            case 1:
+                print(f"{self.getName()} says: {customer.getName()} was ok with their stay.")
+            case 2:
+                print(f"{self.getName()} says: {customer.getName()} was unhappy with their stay.")
+            case _:
+                print("Error.")
 
 
 class Cleaner:
