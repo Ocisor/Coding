@@ -31,7 +31,9 @@ class Room:
         return self.__clean
     def listOccupants(self):
         for count, occupant in enumerate(self.__occupants):
-            print(f"Occupant no.{count} is {occupant.getName()}.")    
+            print(f"Occupant no.{count} is {occupant.getName()}.")
+    def roomCleaned(self):
+        self.__clean = True  
     
     def addOccupant(self, occupantIn):
         self.__occupants.append(occupantIn)
@@ -77,13 +79,16 @@ class Manager:
 
 class Cleaner:
     def __init__(self, name):
-        self.name = name
+        self.__name = name
 
     def getName(self):
         return self.__name
 
     def cleanRooms(self, hotel):
-        pass
+        for room in hotel.checkRooms():
+            if room:
+                print(f"{self.getName()} cleaned room {room.getNumber()}")
+
 
 
 class Receptionist:
@@ -96,12 +101,12 @@ class Receptionist:
     def checkIn(self, hotel, customer):
         #Call addOccupant from room
         roomNo = customer.getBooking()
-        hotel.checkRooms()[roomNo].addOccupant(customer)
+        hotel.checkRooms()[roomNo - 1].addOccupant(customer)
     
     def checkOut(self, hotel, customer, manager):
         #Call removeOccupant from room
         roomNo = customer.getBooking()
-        hotel.checkRooms()[roomNo].removeOccupant(customer)
+        hotel.checkRooms()[roomNo - 1].removeOccupant(customer)
         manager.takeFeedback(manager, customer)
 
 
