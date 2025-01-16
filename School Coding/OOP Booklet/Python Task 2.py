@@ -123,7 +123,7 @@ def main():
     customer3 = Customer(2, "Miss. Scarlett")
     customer4 = Customer(3, "Mrs. Peacock")
     customer5 = Customer(2, "Prof. Plum")
-    customer6 = (3, "Col. Mustard")
+    customer6 = Customer(3, "Col. Mustard")
     receptionist = Receptionist("Jane")
     cleaner = Cleaner("Michael")
     manager = Manager("Janhavi")
