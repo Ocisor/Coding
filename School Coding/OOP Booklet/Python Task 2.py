@@ -90,7 +90,6 @@ class Cleaner:
                 print(f"{self.getName()} cleaned room {room.getNumber()}")
 
 
-
 class Receptionist:
     def __init__(self, name):
         self.__name = name 
