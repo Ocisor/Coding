@@ -59,6 +59,7 @@ class Mammal(Animal):
         super().__init__()
         self._coldBlooded = False
         self._skinType = "Fur"
+        
 
         self._birth = "This animal gives birth to live young"
 
@@ -70,6 +71,7 @@ class Tortoise(Reptile):
         super().__init__()
         self._legs = 4
         
+        self._diet = "This animal is a herbivore."
         self._moveType = "This animal walks."
 
 class Turtle(Reptile):
@@ -77,6 +79,7 @@ class Turtle(Reptile):
         super().__init__()
         self._legs = 4
 
+        self._diet = "This animal is an omnivore."
         self._moveType = "This animal crawls and swims."
 
 class Snake(Reptile):
@@ -84,11 +87,41 @@ class Snake(Reptile):
         super().__init__()
         self._legs = 0
 
+        self._diet = "This animal is a carnivore"
         self._moveType = "This animal slithers."
 
 class Otter(Mammal):
     def __init__(self):
         super().__init__()
+        self._legs = 4
+        self._tail = True
+        self._arms = 0
+        self._wings = 0
+
+        self._moveType = "This animal swims and walks."
+        self._diet = "This animal is an omnivore."
+    
+class Gorilla(Mammal):
+    def __init__(self):
+        super().__init__()
+        self._legs = 2
+        self._tail = False
+        self._arms = 2
+        self._wings = 0
+
+        self._moveType = "This animal walks and climbs"
+        self._diet = "This animal is a herbivore"
+
+class Bat(Mammal):
+    def __init__(self):
+        super().__init__()
+        self._legs = 2
+        self._tail = True
+        self._arms = 0
+        self._wings = 2
+
+        self._moveType = "This animal flies."
+        self._diet = "This animal is an omnivore."
         
 
 
