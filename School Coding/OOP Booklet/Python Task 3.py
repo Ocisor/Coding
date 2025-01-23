@@ -1,11 +1,11 @@
 class Animal:
     def __init__(self):
         self._coldBlooded = None
-        self._skinType = ""
+        self._skinType = None
         self._tail = None
-        self._legs = None
-        self._arms = None
-        self._wings = None
+        self._legs = 0
+        self._arms = 0
+        self._wings = 0
 
         self._moveType = ""
         self._diet = ""
@@ -15,14 +15,37 @@ class Animal:
         print(self._moveType)
     def eat(self):
         print(self._diet)
+    def birth(self):
+        print(self._birth)
 
+    def getInfo(self):
+        if self._coldBlooded:
+            print("This animal is cold blooded.")
+        else:
+            print("This animal is warm blooded.")
+        if self._skinType != None:
+            print(f"This animal is covered in {self._skinType}")
+        if self._tail:
+            print("This animal has a tail.")
+        if self._legs > 0:
+            print(f"This animal has {self._legs} legs.")
+        if self._arms > 0:
+            print(f"This animal has {self._arms} arms.")
+        if self._wings > 0:
+            print(f"This animal has {self._wings} wings.")
+        self.move()
+        self.eat()
+        self.birth()
+        self.hibernate()
+        print()
 
 
 class Reptile(Animal):
     def __init__(self):
-        super.__init__()
+        super().__init__()
         self._coldBlooded = True
         self._skinType = "Scales"
+        self._tail = True
         self._arms = 0
         self._wings = 0
 
@@ -33,20 +56,40 @@ class Reptile(Animal):
 
 class Mammal(Animal):
     def __init__(self):
-        super.__init__()
-        self._birth = "This animal gives birth to live young"
+        super().__init__()
+        self._coldBlooded = False
         self._skinType = "Fur"
 
-        self._coldBlooded = False
+        self._birth = "This animal gives birth to live young"
+
+    def hibernate(self):
+        pass
 
 class Tortoise(Reptile):
-    def __init(self):
-        super.__init__()
-        self._tail = True
+    def __init__(self):
+        super().__init__()
         self._legs = 4
         
         self._moveType = "This animal walks."
 
+class Turtle(Reptile):
+    def __init__(self):
+        super().__init__()
+        self._legs = 4
+
+        self._moveType = "This animal crawls and swims."
+
+class Snake(Reptile):
+    def __init__(self):
+        super().__init__()
+        self._legs = 0
+
+        self._moveType = "This animal slithers."
+
+class Otter(Mammal):
+    def __init__(self):
+        super().__init__()
+        
 
 
 def main():
