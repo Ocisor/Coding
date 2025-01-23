@@ -11,6 +11,11 @@ class Animal:
         self._diet = ""
         self._birth = ""
 
+    def move(self):
+        print(self._moveType)
+    def eat(self):
+        print(self._diet)
+
 
 
 class Reptile(Animal):
@@ -18,9 +23,13 @@ class Reptile(Animal):
         super.__init__()
         self._coldBlooded = True
         self._skinType = "Scales"
+        self._arms = 0
+        self._wings = 0
 
         self._birth = "This animal lays eggs."
     
+    def hibernate(self):
+        print("This animal hibernates.")
 
 class Mammal(Animal):
     def __init__(self):
@@ -34,8 +43,9 @@ class Tortoise(Reptile):
     def __init(self):
         super.__init__()
         self._tail = True
-
-
+        self._legs = 4
+        
+        self._moveType = "This animal walks."
 
 
 
