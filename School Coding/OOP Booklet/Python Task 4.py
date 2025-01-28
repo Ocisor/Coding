@@ -1,6 +1,6 @@
 import math
 
-def convert(self, string):
+def convert(string):
     match string:
         case "one":
             return 1
