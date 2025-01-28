@@ -25,9 +25,31 @@ def convert(self, string):
 
 class Shape:
     def __init__(self, x, y=-1, z=-1):
-        self.x = x
-        self.y = y
-        self.z = z
+        self.x = convert(x)
+        self.y = convert(y)
+        self.z = convert(z)
+        self.initCircle()
+        self.initRectangle()
+        self.initTriangle()
+
+    def initCircle(self):
+        if self.y == -1:
+            self.perimeterValue = 2 * math.pi * self.x
+            self.areaValue = math.pi * (self.x ** 2)
+    def initRectangle(self):
+        if self.y != -1 and self.z == -1:
+            self.perimeterValue = (2* self.x) + (2 * self.y)
+            self.areaValue = self.x * self.y
+    def initTriangle(self):
+        if self.y != -1 and self.z != -1:
+            self.perimeterValue = self.x + self.y + self.z
+            self.areaValue = math.sqrt( (self.perimeterValue/2) * self.perimeterValue/2-self.x * self.perimeterValue/2-self.y * self.perimeterValue/2-self.z)
+
+    def perimeter(self):
+        print(f"This has a perimeter of {self.perimeterValue}")
+    def area(self):
+        print(f"This has a area of {self.areaValue}")
+
 
 def main():
     #Circles have one value: radius
