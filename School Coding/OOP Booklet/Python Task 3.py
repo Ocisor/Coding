@@ -66,6 +66,7 @@ class Mammal(Animal):
     def hibernate(self):
         pass
 
+
 class Tortoise(Reptile):
     def __init__(self):
         super().__init__()
@@ -89,6 +90,7 @@ class Snake(Reptile):
 
         self._diet = "This animal is a carnivore"
         self._moveType = "This animal slithers."
+
 
 class Otter(Mammal):
     def __init__(self):
@@ -123,7 +125,6 @@ class Bat(Mammal):
         self._moveType = "This animal flies."
         self._diet = "This animal is an omnivore."
         
-
 
 def main():
     tortoise = Tortoise()
