@@ -24,7 +24,10 @@ def convert(self, string):
             return string
 
 class Shape:
-    pass
+    def __init__(self, x, y=-1, z=-1):
+        self.x = x
+        self.y = y
+        self.z = z
 
 def main():
     #Circles have one value: radius
