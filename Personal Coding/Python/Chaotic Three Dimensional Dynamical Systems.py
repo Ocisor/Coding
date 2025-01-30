@@ -18,8 +18,8 @@ t, xdata, ydata, zdata = [], [], [], []
 x = int(input(f"input starting x value."))
 y = int(input(f"input starting y value."))
 z = int(input(f"input starting z value."))
-a = 10
-b = 28
+a = 100
+b = 1
 c = 8/3
 dt = 0.01
 for i in range(int(input("How many steps?"))):
