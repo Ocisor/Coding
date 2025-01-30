@@ -15,7 +15,23 @@ nPoints = 2500
 t, xdata, ydata, zdata = [], [], [], []
 
 # Fill in evaluation of Lorentz system here
-
+x = int(input(f"input starting x value."))
+y = int(input(f"input starting y value."))
+z = int(input(f"input starting z value."))
+a = 10
+b = 28
+c = 8/3
+dt = 0.01
+for i in range(int(input("How many steps?"))):
+    dx = a*(y-x)*dt
+    dy = (x*(b-z)-y)*dt
+    dz = (x*y-c*z)*dt
+    x += dx
+    y += dy
+    z += dz
+    xdata.append(x)
+    ydata.append(y)
+    zdata.append(z)
 
 plt.style.use('dark_background')
 fig = plt.figure()
