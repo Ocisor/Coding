@@ -3,7 +3,7 @@ class Game():
         pass
     def initBoard():
         pass
-    def createPerson():
+    def createPerson    ():
         pass
     def initPlayers():
         pass
