@@ -65,15 +65,11 @@
         button:hover {
             background-color: #0056b3;
         }
-        .star-button {
-            background-color: gold;
-            color: black;
-        }
     </style>
 </head>
 <body>
     <div id="app">
-        <div class="card-container" onclick="flipCard()">
+        <div class="card-container">
             <div class="card" id="flashcard">
                 <div class="card-face card-front" id="cardFront">Loading...</div>
                 <div class="card-face card-back" id="cardBack">Loading...</div>
@@ -81,94 +77,67 @@
         </div>
         <div class="buttons">
             <button onclick="prevCard(event)">Previous</button>
-            <button onclick="toggleStar(event)" id="starButton">☆ Star</button>
             <button onclick="nextCard(event)">Next</button>
-            <button onclick="toggleFilter(event)">Show Starred</button>
         </div>
     </div>
 
     <script>
         let flashcards = [
-            { term: "你好", definition: "Hello", starred: false },
-            { term: "谢谢", definition: "Thank you", starred: false },
-            { term: "再见", definition: "Goodbye", starred: false },
-            { term: "请", definition: "Please", starred: false },
-            { term: "对不起", definition: "Sorry", starred: false }
+            { term: "你好", definition: "Hello" },
+            { term: "谢谢", definition: "Thank you" },
+            { term: "再见", definition: "Goodbye" },
+            { term: "请", definition: "Please" },
+            { term: "对不起", definition: "Sorry" }
         ];
 
         let currentIndex = 0;
         let isFlipped = false;
-        let showStarredOnly = false;
 
-        function getFilteredCards() {
-            return showStarredOnly ? flashcards.filter(card => card.starred) : flashcards;
-        }
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowRight') {
+                nextCard(event);
+            } else if (event.key === 'ArrowLeft') {
+                prevCard(event);
+            } else if (event.key === ' ') {
+                flipCard(event);
+            }
+        });
 
         function displayCard() {
-            const cardElement = document.getElementById('flashcard');
             const cardFront = document.getElementById('cardFront');
             const cardBack = document.getElementById('cardBack');
-            const starButton = document.getElementById('starButton');
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.remove('flip');
+            isFlipped = false;
 
-            let filteredCards = getFilteredCards();
-            if (filteredCards.length > 0) {
-                cardElement.classList.add('fade');
-                setTimeout(() => {
-                    cardFront.textContent = filteredCards[currentIndex].term;
-                    cardBack.textContent = filteredCards[currentIndex].definition;
-                    starButton.textContent = filteredCards[currentIndex].starred ? "★ Unstar" : "☆ Star";
-                    starButton.classList.toggle("star-button", filteredCards[currentIndex].starred);
-                    cardElement.classList.remove('fade');
-                }, 400);
+            if (flashcards.length > 0) {
+                cardFront.textContent = flashcards[currentIndex].term;
+                cardBack.textContent = flashcards[currentIndex].definition;
             } else {
                 cardFront.textContent = "No flashcards available.";
                 cardBack.textContent = "No flashcards available.";
             }
         }
 
-        function flipCard() {
-            const cardElement = document.getElementById('flashcard');
+        function flipCard(event) {
+            event.stopPropagation();
+            const flashcard = document.getElementById('flashcard');
             isFlipped = !isFlipped;
-            cardElement.classList.toggle('flip', isFlipped);
+            flashcard.classList.toggle('flip', isFlipped);
         }
 
         function prevCard(event) {
             event.stopPropagation();
-            let filteredCards = getFilteredCards();
-            if (filteredCards.length === 0) return;
-            currentIndex = (currentIndex - 1 + filteredCards.length) % filteredCards.length;
-            isFlipped = false;
-            document.getElementById('flashcard').classList.remove('flip');
+            currentIndex = (currentIndex - 1 + flashcards.length) % flashcards.length;
             displayCard();
         }
 
         function nextCard(event) {
             event.stopPropagation();
-            let filteredCards = getFilteredCards();
-            if (filteredCards.length === 0) return;
-            currentIndex = (currentIndex + 1) % filteredCards.length;
-            isFlipped = false;
-            document.getElementById('flashcard').classList.remove('flip');
+            currentIndex = (currentIndex + 1) % flashcards.length;
             displayCard();
         }
 
-        function toggleStar(event) {
-            event.stopPropagation();
-            let filteredCards = getFilteredCards();
-            if (filteredCards.length > 0) {
-                filteredCards[currentIndex].starred = !filteredCards[currentIndex].starred;
-                displayCard();
-            }
-        }
-
-        function toggleFilter(event) {
-            event.stopPropagation();
-            showStarredOnly = !showStarredOnly;
-            currentIndex = 0;
-            displayCard();
-        }
-
-        // Load the first card
         displayCard();
     </script>
 </body>
