@@ -69,8 +69,9 @@
 </head>
 <body>
     <div id="app">
+        <div id="counter">1 / 5</div>
         <div class="card-container">
-            <div class="card" id="flashcard">
+            <div class="card" id="flashcard" onclick="flipCard(event)">
                 <div class="card-face card-front" id="cardFront">Loading...</div>
                 <div class="card-face card-back" id="cardBack">Loading...</div>
             </div>
@@ -78,20 +79,23 @@
         <div class="buttons">
             <button onclick="prevCard(event)">Previous</button>
             <button onclick="nextCard(event)">Next</button>
+            <button onclick="toggleStar(event)" id="starButton">☆ Star</button>
+            <button onclick="toggleFilter(event)">Show Starred</button>
         </div>
     </div>
 
     <script>
         let flashcards = [
-            { term: "你好", definition: "Hello" },
-            { term: "谢谢", definition: "Thank you" },
-            { term: "再见", definition: "Goodbye" },
-            { term: "请", definition: "Please" },
-            { term: "对不起", definition: "Sorry" }
+            { term: "你好", definition: "Hello", starred: false },
+            { term: "谢谢", definition: "Thank you", starred: false },
+            { term: "再见", definition: "Goodbye", starred: false },
+            { term: "请", definition: "Please", starred: false },
+            { term: "对不起", definition: "Sorry", starred: false }
         ];
 
         let currentIndex = 0;
         let isFlipped = false;
+        let showStarredOnly = false;
 
         document.addEventListener('keydown', (event) => {
             if (event.key === 'ArrowRight') {
@@ -103,19 +107,27 @@
             }
         });
 
+        function getFilteredCards() {
+            return showStarredOnly ? flashcards.filter(c => c.starred) : flashcards;
+        }
+
         function displayCard() {
             const cardFront = document.getElementById('cardFront');
             const cardBack = document.getElementById('cardBack');
+            const counter = document.getElementById('counter');
+            const starButton = document.getElementById('starButton');
             const flashcard = document.getElementById('flashcard');
-            flashcard.classList.remove('flip');
-            isFlipped = false;
-
-            if (flashcards.length > 0) {
-                cardFront.textContent = flashcards[currentIndex].term;
-                cardBack.textContent = flashcards[currentIndex].definition;
+            let filteredCards = getFilteredCards();
+            
+            if (filteredCards.length > 0) {
+                cardFront.textContent = filteredCards[currentIndex].term;
+                cardBack.textContent = filteredCards[currentIndex].definition;
+                counter.textContent = `${currentIndex + 1} / ${filteredCards.length}`;
+                starButton.textContent = filteredCards[currentIndex].starred ? "★ Unstar" : "☆ Star";
+                flashcard.classList.remove('flip');
+                isFlipped = false;
             } else {
-                cardFront.textContent = "No flashcards available.";
-                cardBack.textContent = "No flashcards available.";
+                counter.textContent = "No cards available";
             }
         }
 
@@ -126,15 +138,31 @@
             flashcard.classList.toggle('flip', isFlipped);
         }
 
+        function toggleStar(event) {
+            event.stopPropagation();
+            let filteredCards = getFilteredCards();
+            if (filteredCards.length > 0) {
+                filteredCards[currentIndex].starred = !filteredCards[currentIndex].starred;
+                displayCard();
+            }
+        }
+
+        function toggleFilter(event) {
+            event.stopPropagation();
+            showStarredOnly = !showStarredOnly;
+            currentIndex = 0;
+            displayCard();
+        }
+
         function prevCard(event) {
             event.stopPropagation();
-            currentIndex = (currentIndex - 1 + flashcards.length) % flashcards.length;
+            currentIndex = (currentIndex - 1 + getFilteredCards().length) % getFilteredCards().length;
             displayCard();
         }
 
         function nextCard(event) {
             event.stopPropagation();
-            currentIndex = (currentIndex + 1) % flashcards.length;
+            currentIndex = (currentIndex + 1) % getFilteredCards().length;
             displayCard();
         }
 
