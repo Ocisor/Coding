@@ -5,7 +5,6 @@ class Game():
         p2 = Player(input("What is your name? "), 'O')
         while True:
             b.display()
-            input()
             p1.makeMove(b)
             b.display()
             p2.makeMove(b)
@@ -49,11 +48,10 @@ class Board():
         success = False
         if self.boardFull():
             success = True
-        print(success)
         while not success:
-            choice = input("Which column do you want to place your token in? (zero indexed)")
+            choice = int(input("Which column do you want to place your token in? (zero indexed)"))
             if not self.columnFull(choice):
-                for i in range(self.getHeight(), -1, -1):
+                for i in range(self.getHeight()-1, -1, -1):
                     if not success and self._board[i][choice] == '+':
                         self._board[i][choice] = pID
                         success = True
