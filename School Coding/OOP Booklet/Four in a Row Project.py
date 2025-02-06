@@ -46,7 +46,13 @@ class Board():
         while not success:
             choice = input("Which column do you want to place your token in? (zero indexed)")
             if not self.columnFull(choice):
+                placed = False
+                for i in range(self.getHeight(), -1, -1):
+                    if not placed and self._board[i][choice] == '+':
+                        self._board[i][choice] = pID
+                        placed = True
                 success = True
+            
             
 
 class Player():
