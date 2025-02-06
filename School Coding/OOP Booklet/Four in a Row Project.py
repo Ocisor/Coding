@@ -3,13 +3,19 @@ class Game():
         b = Board(7, 6)
         p1 = Player(input("What is your name? "), 'X')
         p2 = Player(input("What is your name? "), 'O')
+        while True:
+            b.display()
+            input()
+            p1.makeMove(b)
+            b.display()
+            p2.makeMove(b)
 
 class Board():
     def __init__(self, columns, rows):
         self._columns = columns
         self._rows = rows
         self._board = [['+' for i in range(self._columns)] for i in range(self._rows)]
-        self._board = [['+','O','+','+','+','+','+'],['+','O','+','+','+','+','+'],['+','O','+','+','+','+','+'],['+','O','+','+','+','+','+'],['+','O','+','+','+','+','+'],['+','O','+','+','+','+','+']]
+        #self._board = [['+','O','+','+','+','+','+'],['+','O','+','+','+','+','+'],['+','O','+','+','+','+','+'],['+','O','+','+','+','+','+'],['+','O','+','+','+','+','+'],['+','O','+','+','+','+','+']]
 
     def stripBoard(self, line):
         strippedLine = '  '.join(line)
@@ -29,7 +35,7 @@ class Board():
 
     def boardFull(self):
         full = True
-        for i in range(self.getHeight()):
+        for i in range(self._rows):
             if '+' in self._board[i]:
                 full = False
         return full
@@ -41,17 +47,19 @@ class Board():
     
     def addToken(self, pID):
         success = False
-        if self.boardFull:
+        if self.boardFull():
             success = True
+        print(success)
         while not success:
             choice = input("Which column do you want to place your token in? (zero indexed)")
             if not self.columnFull(choice):
-                placed = False
                 for i in range(self.getHeight(), -1, -1):
-                    if not placed and self._board[i][choice] == '+':
+                    if not success and self._board[i][choice] == '+':
                         self._board[i][choice] = pID
-                        placed = True
-                success = True
+                        success = True
+            if not success:
+                print("Cannot place here. Try again.")
+
             
             
 
@@ -66,11 +74,8 @@ class Player():
     def getID(self):
         return self._pID
     
-    def makeMove(self):
-        pass
+    def makeMove(self, board):
+        board.addToken(self._pID)
 
 
-b1 = Board(7,6)
-b1.display()
-b1.columnFull(1) # REMEMBER IT IS ZERO INDEXED
-b1.boardFull()
+g = Game()
