@@ -1,8 +1,8 @@
 class Game():
     def __init__(self):
         b = Board(7, 6)
-        p1 = Player(input("What is your name? "), 1)
-        p2 = Player(input("What is your name? "), 2)
+        p1 = Player(input("What is your name? "), 'X')
+        p2 = Player(input("What is your name? "), 'O')
 
 class Board():
     def __init__(self, columns, rows):
@@ -39,13 +39,21 @@ class Board():
     def getHeight(self):
         return self._rows
     
-    def addToken(self, player):
-        pass
+    def addToken(self, pID):
+        success = False
+        if self.boardFull:
+            success = True
+        while not success:
+            choice = input("Which column do you want to place your token in? (zero indexed)")
+            if not self.columnFull(choice):
+                success = True
+            
 
 class Player():
     def __init__(self, name, pID):
         self._name = name
         self._pID = pID
+        print(f"{name}, your token is: {self._pID}.")
     
     def getName(self):
         return self._name
