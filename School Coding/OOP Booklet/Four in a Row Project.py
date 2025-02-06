@@ -1,8 +1,8 @@
 class Game():
     def __init__(self):
         b = Board(7, 6)
-        p1 = Player(input("What is your name? "), 'X')
-        p2 = Player(input("What is your name? "), 'O')
+        p1 = Player(input("What is your name? "), 'O')
+        p2 = Player(input("What is your name? "), 'X')
         while True:
             b.display()
             p1.makeMove(b)
@@ -57,7 +57,12 @@ class Board():
                         success = True
             if not success:
                 print("Cannot place here. Try again.")
+    
+    def checkVert(self, pID):
+        pass
 
+    def checkWin(self):
+        pass
             
             
 
@@ -74,6 +79,7 @@ class Player():
     
     def makeMove(self, board):
         board.addToken(self._pID)
+        board.checkWin()
 
 
 g = Game()
