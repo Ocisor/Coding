@@ -58,8 +58,14 @@ class Board():
             if not success:
                 print("Cannot place here. Try again.")
     
-    def checkVert(self, pID):
-        pass
+    def checkVert(self):
+        tempCol = []
+        for column in range(self._columns):
+            for i in range(self._rows):
+                tempCol.append(self._board[i][column])
+                #continue here. try and edit the logic :)
+            
+
 
     def checkWin(self):
         pass
