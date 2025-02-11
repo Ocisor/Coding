@@ -63,5 +63,4 @@ class Class():
             student.dispDetails()
 
 class1 = Class(path)
-
 class1.studentDetails()
