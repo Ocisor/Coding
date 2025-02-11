@@ -32,12 +32,9 @@ class Pupil():
         f = file.readlines()
         self._name = f[nameLoc]
         self._name = self._name[:(len(self._name)-1)]
-        found = False
-        for line in f:
-            if found == True:
-                self._mark = line[:(len(line)-1)]
-            if line == self._name:
-                found = True
+        self._mark = f[nameLoc + 1]
+        self._mark = self._mark[:(len(self._name)-1)]
+
         file.close()
     
     def getName(self):
