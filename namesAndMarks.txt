@@ -1,6 +1,8 @@
-Josh
-50
-Joe
-60
-Jim
-55
+Jamie
+0
+Jake
+90
+Henrik
+89
+Sam
+100

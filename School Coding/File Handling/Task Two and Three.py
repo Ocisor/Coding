@@ -1,4 +1,4 @@
-l = [["Josh", 50], ["Joe", 60], ["Jim", 55]]
+l = [["Jamie", 0], ["Jake", 90], ["Henrik", 89], ["Sam", 100]]
 path = "namesAndMarks.txt"
 f = open(path, "w")
 for entry in l:
@@ -43,7 +43,7 @@ class Pupil():
         return self._mark
     
     def dispDetails(self):
-        print(f"{self._name} has {self._mark}.")
+        print(f"{self._name} has {self._mark}")
 
 class Class():
     def __init__(self, path):
