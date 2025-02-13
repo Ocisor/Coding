@@ -1,4 +1,4 @@
-l = [["Jamie", 0], ["Jake", 90], ["Henrik", 89], ["Sam", 100]]
+l = [["Rachel", 0], ["Jake", 90], ["Henrik", 89], ["Sam", 100]]
 path = "namesAndMarks.txt"
 f = open(path, "w")
 for entry in l:
@@ -64,3 +64,4 @@ class Class():
 
 class1 = Class(path)
 class1.studentDetails()
+print(class1._students)
