@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mandarin Flashcards</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .card-container {
+            perspective: 1000px;
+        }
+        .card {
+            width: 400px;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s, opacity 0.4s ease-in-out;
+            cursor: pointer;
+        }
+        .card.fade {
+            opacity: 0;
+        }
+        .card.flip {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 28px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="counter">1 / 5</div>
+        <div class="card-container">
+            <div class="card" id="flashcard" onclick="flipCard(event)">
+                <div class="card-face card-front" id="cardFront">Loading...</div>
+                <div class="card-face card-back" id="cardBack">Loading...</div>
+            </div>
+        </div>
+        <div class="buttons">
+            <button onclick="prevCard(event)">Previous</button>
+            <button onclick="nextCard(event)">Next</button>
+            <button onclick="toggleStar(event)" id="starButton">☆ Star</button>
+            <button onclick="toggleFilter(event)">Show Starred</button>
+        </div>
+    </div>
+
+    <script>
+        let flashcards = [
+            { term: "你好 (Nǐ hǎo)", definition: "Hello", starred: false },
+            { term: "再见 (Zàijiàn)", definition: "Goodbye", starred: false },
+            { term: "请 (Qǐng)", definition: "Please", starred: false },
+            { term: "谢谢 (Xièxiè)", definition: "Thank you", starred: false },
+            { term: "对不起 (Duìbuqǐ)", definition: "Sorry", starred: false },
+            { term: "是 (Shì)", definition: "To be (am, is, are)", starred: false },
+            { term: "不 (Bù)", definition: "Not", starred: false },
+            { term: "吗 (Ma)", definition: "Question particle", starred: false },
+            { term: "我 (Wǒ)", definition: "I, me", starred: false },
+            { term: "你 (Nǐ)", definition: "You", starred: false },
+            { term: "他 (Tā)", definition: "He, him", starred: false },
+            { term: "她 (Tā)", definition: "She, her", starred: false },
+            { term: "什么 (Shénme)", definition: "What", starred: false },
+            { term: "名字 (Míngzi)", definition: "Name", starred: false },
+            { term: "叫 (Jiào)", definition: "To be called", starred: false },
+            { term: "哪 (Nǎ)", definition: "Which", starred: false },
+            { term: "国 (Guó)", definition: "Country", starred: false },
+            { term: "人 (Rén)", definition: "Person", starred: false },
+            { term: "中国 (Zhōngguó)", definition: "China", starred: false },
+            { term: "美国 (Měiguó)", definition: "United States", starred: false },
+            { term: "英国 (Yīngguó)", definition: "United Kingdom", starred: false },
+            { term: "一 (Yī)", definition: "One", starred: false },
+            { term: "二 (Èr)", definition: "Two", starred: false },
+            { term: "三 (Sān)", definition: "Three", starred: false },
+            { term: "四 (Sì)", definition: "Four", starred: false },
+            { term: "五 (Wǔ)", definition: "Five", starred: false },
+            { term: "六 (Liù)", definition: "Six", starred: false },
+            { term: "七 (Qī)", definition: "Seven", starred: false },
+            { term: "八 (Bā)", definition: "Eight", starred: false },
+            { term: "九 (Jiǔ)", definition: "Nine", starred: false },
+            { term: "十 (Shí)", definition: "Ten", starred: false },
+            { term: "零 (Líng)", definition: "Zero", starred: false },
+            { term: "岁 (Suì)", definition: "Year of age", starred: false },
+            { term: "几 (Jǐ)", definition: "How many", starred: false },
+            { term: "多大 (Duō dà)", definition: "How old", starred: false },
+            { term: "老师 (Lǎoshī)", definition: "Teacher", starred: false },
+            { term: "学生 (Xuéshēng)", definition: "Student", starred: false },
+            { term: "医生 (Yīshēng)", definition: "Doctor", starred: false },
+            { term: "中国人 (Zhōngguó rén)", definition: "Chinese person", starred: false },
+            { term: "美国人 (Měiguó rén)", definition: "American person", starred: false },
+            { term: "英国人 (Yīngguó rén)", definition: "British person", starred: false }
+        ];
+
+
+        let currentIndex = 0;
+        let isFlipped = false;
+        let showStarredOnly = false;
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowRight') {
+                nextCard(event);
+            } else if (event.key === 'ArrowLeft') {
+                prevCard(event);
+            } else if (event.key === ' ') {
+                flipCard(event);
+            }
+        });
+
+        function getFilteredCards() {
+            return showStarredOnly ? flashcards.filter(c => c.starred) : flashcards;
+        }
+
+        function displayCard() {
+            const cardFront = document.getElementById('cardFront');
+            const cardBack = document.getElementById('cardBack');
+            const counter = document.getElementById('counter');
+            const starButton = document.getElementById('starButton');
+            const flashcard = document.getElementById('flashcard');
+            let filteredCards = getFilteredCards();
+            
+            if (filteredCards.length > 0) {
+                cardFront.textContent = filteredCards[currentIndex].term;
+                cardBack.textContent = filteredCards[currentIndex].definition;
+                counter.textContent = `${currentIndex + 1} / ${filteredCards.length}`;
+                starButton.textContent = filteredCards[currentIndex].starred ? "★ Unstar" : "☆ Star";
+                flashcard.classList.remove('flip');
+                isFlipped = false;
+            } else {
+                counter.textContent = "No cards available";
+            }
+        }
+
+        function flipCard(event) {
+            event.stopPropagation();
+            const flashcard = document.getElementById('flashcard');
+            isFlipped = !isFlipped;
+            flashcard.classList.toggle('flip', isFlipped);
+        }
+
+        function toggleStar(event) {
+            event.stopPropagation();
+            let filteredCards = getFilteredCards();
+            if (filteredCards.length > 0) {
+                filteredCards[currentIndex].starred = !filteredCards[currentIndex].starred;
+                displayCard();
+            }
+        }
+
+        function toggleFilter(event) {
+            event.stopPropagation();
+            showStarredOnly = !showStarredOnly;
+            currentIndex = 0;
+            displayCard();
+        }
+
+        function prevCard(event) {
+            event.stopPropagation();
+            currentIndex = (currentIndex - 1 + getFilteredCards().length) % getFilteredCards().length;
+            displayCard();
+        }
+
+        function nextCard(event) {
+            event.stopPropagation();
+            currentIndex = (currentIndex + 1) % getFilteredCards().length;
+            displayCard();
+        }
+
+        displayCard();
+    </script>
+</body>
+</html>

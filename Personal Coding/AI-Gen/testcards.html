@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mandarin Flashcards</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .card-container {
+            perspective: 1000px;
+        }
+        .card {
+            width: 400px;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s, opacity 0.4s ease-in-out;
+            cursor: pointer;
+        }
+        .card.fade {
+            opacity: 0;
+        }
+        .card.flip {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 28px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="counter">1 / 5</div>
+        <div class="card-container">
+            <div class="card" id="flashcard" onclick="flipCard(event)">
+                <div class="card-face card-front" id="cardFront">Loading...</div>
+                <div class="card-face card-back" id="cardBack">Loading...</div>
+            </div>
+        </div>
+        <div class="buttons">
+            <button onclick="prevCard(event)">Previous</button>
+            <button onclick="nextCard(event)">Next</button>
+            <button onclick="toggleStar(event)" id="starButton">☆ Star</button>
+            <button onclick="toggleFilter(event)">Show Starred</button>
+        </div>
+    </div>
+
+    <script>
+        let flashcards = [
+            { term: "你好", definition: "Hello", starred: false },
+            { term: "谢谢", definition: "Thank you", starred: false },
+            { term: "再见", definition: "Goodbye", starred: false },
+            { term: "请", definition: "Please", starred: false },
+            { term: "对不起", definition: "Sorry", starred: false }
+        ];
+
+        let currentIndex = 0;
+        let isFlipped = false;
+        let showStarredOnly = false;
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowRight') {
+                nextCard(event);
+            } else if (event.key === 'ArrowLeft') {
+                prevCard(event);
+            } else if (event.key === ' ') {
+                flipCard(event);
+            }
+        });
+
+        function getFilteredCards() {
+            return showStarredOnly ? flashcards.filter(c => c.starred) : flashcards;
+        }
+
+        function displayCard() {
+            const cardFront = document.getElementById('cardFront');
+            const cardBack = document.getElementById('cardBack');
+            const counter = document.getElementById('counter');
+            const starButton = document.getElementById('starButton');
+            const flashcard = document.getElementById('flashcard');
+            let filteredCards = getFilteredCards();
+            
+            if (filteredCards.length > 0) {
+                cardFront.textContent = filteredCards[currentIndex].term;
+                cardBack.textContent = filteredCards[currentIndex].definition;
+                counter.textContent = `${currentIndex + 1} / ${filteredCards.length}`;
+                starButton.textContent = filteredCards[currentIndex].starred ? "★ Unstar" : "☆ Star";
+                flashcard.classList.remove('flip');
+                isFlipped = false;
+            } else {
+                counter.textContent = "No cards available";
+            }
+        }
+
+        function flipCard(event) {
+            event.stopPropagation();
+            const flashcard = document.getElementById('flashcard');
+            isFlipped = !isFlipped;
+            flashcard.classList.toggle('flip', isFlipped);
+        }
+
+        function toggleStar(event) {
+            event.stopPropagation();
+            let filteredCards = getFilteredCards();
+            if (filteredCards.length > 0) {
+                filteredCards[currentIndex].starred = !filteredCards[currentIndex].starred;
+                displayCard();
+            }
+        }
+
+        function toggleFilter(event) {
+            event.stopPropagation();
+            showStarredOnly = !showStarredOnly;
+            currentIndex = 0;
+            displayCard();
+        }
+
+        function prevCard(event) {
+            event.stopPropagation();
+            currentIndex = (currentIndex - 1 + getFilteredCards().length) % getFilteredCards().length;
+            displayCard();
+        }
+
+        function nextCard(event) {
+            event.stopPropagation();
+            currentIndex = (currentIndex + 1) % getFilteredCards().length;
+            displayCard();
+        }
+
+        displayCard();
+    </script>
+</body>
+</html>
