@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactive Grid UI</title>
+  <style>
+    /* Reset and basic styles */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+    /* Breadcrumb trail styling */
+    #breadcrumb {
+      list-style: none;
+      margin: 0;
+      padding: 10px;
+      background-color: #f5f5f5;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9rem;
+    }
+    #breadcrumb li {
+      cursor: pointer;
+      color: #007bff;
+    }
+    #breadcrumb li:hover {
+      text-decoration: underline;
+    }
+    #breadcrumb li::after {
+      content: ">";
+      margin: 0 5px;
+    }
+    #breadcrumb li:last-child::after {
+      content: "";
+    }
+    /* Grid container uses CSS Grid for layout */
+    .grid-container {
+      display: grid;
+      gap: 10px;
+      padding: 10px;
+    }
+    /* Boxes styling */
+    .grid-box {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+      background-color: #fff;
+      cursor: pointer;
+      /* Ensure text inside a box that overflows is truncated with ellipsis */
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      /* Optional: a minimum height can make boxes more uniform */
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Differentiate text-only boxes (non-clickable) */
+    .grid-box.text-content {
+      cursor: default;
+      background-color: #e9ecef;
+    }
+    .grid-box:hover:not(.text-content) {
+      background-color: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Breadcrumb trail container -->
+  <ul id="breadcrumb"></ul>
+  
+  <!-- Main grid container -->
+  <div id="gridContainer" class="grid-container"></div>
+  
+  <script>
+    /**********************
+     * Data Structure
+     * Each grid is an object with properties:
+     * - rows: Number of rows
+     * - cols: Number of columns
+     * - cells: Array of cell objects (expected length = rows * cols)
+     * 
+     * Each cell object has:
+     * - type: "text" or "grid"
+     * - content: for text cells
+     * - grid: for grid cells, a nested grid object (same structure)
+     **********************/
+    const gridsData = {
+      rows: 3,
+      cols: 3,
+      cells: [
+        { type: "text", content: "This is some long text that might get truncated if it exceeds the width." },
+        { type: "grid", grid: {
+            rows: 2,
+            cols: 2,
+            cells: [
+              { type: "text", content: "Child box 1 with some text" },
+              { type: "text", content: "Child box 2" },
+              { type: "text", content: "Child box 3" },
+              { type: "grid", grid: {
+                  rows: 2,
+                  cols: 1,
+                  cells: [
+                    { type: "text", content: "Nested grid: row 1" },
+                    { type: "text", content: "Nested grid: row 2" }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        { type: "text", content: "Another text box" },
+        { type: "grid", grid: {
+            rows: 1,
+            cols: 2,
+            cells: [
+              { type: "text", content: "Single row left" },
+              { type: "text", content: "Single row right" }
+            ]
+          }
+        },
+        { type: "text", content: "Some more text content here to show ellipsis behavior." },
+        { type: "text", content: "Box 6" },
+        { type: "text", content: "Box 7" },
+        { type: "text", content: "Box 8" },
+        { type: "text", content: "Box 9" }
+      ]
+    };
+    
+    // Grid navigation stack for breadcrumbs.
+    // Each item in the stack is an object { grid: <grid-data>, label: <breadcrumb label> }.
+    const gridStack = [{ grid: gridsData, label: "Home" }];
+
+    /**
+     * Renders the breadcrumb trail based on the current gridStack.
+     */
+    function renderBreadcrumb() {
+      const breadcrumbContainer = document.getElementById("breadcrumb");
+      breadcrumbContainer.innerHTML = '';
+      gridStack.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.textContent = item.label;
+        li.addEventListener('click', () => {
+          // When clicked, remove grids off the stack back to the clicked item.
+          while (gridStack.length > index + 1) {
+            gridStack.pop();
+          }
+          renderGrid();
+          renderBreadcrumb();
+        });
+        breadcrumbContainer.appendChild(li);
+      });
+    }
+
+    /**
+     * Renders the current active grid from the top of gridStack.
+     */
+    function renderGrid() {
+      const gridContainer = document.getElementById("gridContainer");
+      const currentGrid = gridStack[gridStack.length - 1].grid;
+      
+      // Set the grid template based on current grid's col count.
+      gridContainer.style.gridTemplateColumns = `repeat(${currentGrid.cols}, 1fr)`;
+      gridContainer.innerHTML = '';
+      
+      // Basic iteration over the cells.
+      currentGrid.cells.forEach((cell, index) => {
+        const box = document.createElement('div');
+        box.className = "grid-box";
+        
+        // If it's a text cell, simply put the content.
+        if (cell.type === "text") {
+          box.textContent = cell.content;
+          box.classList.add("text-content");  // Non-clickable style
+        } 
+        // If the cell is a nested grid cell, display an indicator.
+        else if (cell.type === "grid") {
+          box.textContent = `Open Grid (${index + 1})`;
+          // Add click event so that clicking the box navigates into its grid.
+          box.addEventListener('click', () => {
+            gridStack.push({ grid: cell.grid, label: `Grid ${index + 1}` });
+            renderGrid();
+            renderBreadcrumb();
+          });
+        }
+        gridContainer.appendChild(box);
+      });
+    }
+    
+    // Initial render of both breadcrumb and grid.
+    renderBreadcrumb();
+    renderGrid();
+  </script>
+</body>
+</html>
