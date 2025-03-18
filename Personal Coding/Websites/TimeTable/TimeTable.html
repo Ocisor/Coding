@@ -1,197 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Interactive Grid UI</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expandable Revision Timetable</title>
   <style>
-    /* Reset and basic styles */
+    /* Basic styles */
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
-    }
-    /* Breadcrumb trail styling */
-    #breadcrumb {
-      list-style: none;
       margin: 0;
+      padding: 0;
+    }
+    header#controls {
       padding: 10px;
       background-color: #f5f5f5;
+      border-bottom: 1px solid #ccc;
       display: flex;
       align-items: center;
-      gap: 5px;
-      font-size: 0.9rem;
+      gap: 10px;
+      flex-wrap: wrap;
     }
-    #breadcrumb li {
-      cursor: pointer;
-      color: #007bff;
+    header#controls input,
+    header#controls button {
+      padding: 5px;
+      font-size: 1rem;
     }
-    #breadcrumb li:hover {
-      text-decoration: underline;
+    /* Two groups: one for main grid controls and one for nested view */
+    #mainControls,
+    #nestedControls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
     }
-    #breadcrumb li::after {
-      content: ">";
-      margin: 0 5px;
+    #nestedControls {
+      display: none; /* hidden by default */
     }
-    #breadcrumb li:last-child::after {
-      content: "";
-    }
-    /* Grid container uses CSS Grid for layout */
-    .grid-container {
+    /* Grid container */
+    #gridContainer {
       display: grid;
       gap: 10px;
       padding: 10px;
+      min-height: calc(100vh - 60px);
     }
-    /* Boxes styling */
+    /* Each grid cell */
     .grid-box {
       border: 1px solid #ccc;
       padding: 10px;
-      text-align: center;
-      background-color: #fff;
+      background: #fff;
       cursor: pointer;
-      /* Ensure text inside a box that overflows is truncated with ellipsis */
+      position: relative;
       overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      /* Optional: a minimum height can make boxes more uniform */
-      min-height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
-    /* Differentiate text-only boxes (non-clickable) */
-    .grid-box.text-content {
-      cursor: default;
+    /* Ensure that if a box’s content expands it doesn’t get clipped */
+    .grid-box.expanded {
       background-color: #e9ecef;
     }
-    .grid-box:hover:not(.text-content) {
-      background-color: #f0f0f0;
+    /* Box content style */
+    .box-content {
+      font-size: 1rem;
+    }
+    /* Editing state */
+    .editing {
+      border: 2px dashed #007bff;
+    }
+    /* Button for adding a nested box in drill-down view */
+    .add-nested-btn {
+      margin-top: 5px;
+      padding: 5px;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
-  <!-- Breadcrumb trail container -->
-  <ul id="breadcrumb"></ul>
-  
-  <!-- Main grid container -->
+  <!-- Controls Section -->
+  <header id="controls">
+    <!-- Controls for main grid (only visible at top level) -->
+    <div id="mainControls">
+      <label for="rowsInput">Rows:</label>
+      <input type="number" min="1" id="rowsInput" value="3" />
+      <label for="colsInput">Columns:</label>
+      <input type="number" min="1" id="colsInput" value="3" />
+      <button id="updateGrid">Update Grid</button>
+    </div>
+    <!-- Controls for nested grid view (visible when drill-downed) -->
+    <div id="nestedControls">
+      <button id="backButton">Back</button>
+      <button id="addBoxButton">Add Box</button>
+    </div>
+    <!-- Global toggle for edit mode -->
+    <button id="toggleEditMode">Enter Edit Mode</button>
+  </header>
+
+  <!-- Main Grid Section -->
   <div id="gridContainer" class="grid-container"></div>
-  
+
   <script>
-    /**********************
-     * Data Structure
-     * Each grid is an object with properties:
-     * - rows: Number of rows
-     * - cols: Number of columns
-     * - cells: Array of cell objects (expected length = rows * cols)
-     * 
-     * Each cell object has:
-     * - type: "text" or "grid"
-     * - content: for text cells
-     * - grid: for grid cells, a nested grid object (same structure)
-     **********************/
-    const gridsData = {
-      rows: 3,
-      cols: 3,
-      cells: [
-        { type: "text", content: "This is some long text that might get truncated if it exceeds the width." },
-        { type: "grid", grid: {
-            rows: 2,
-            cols: 2,
-            cells: [
-              { type: "text", content: "Child box 1 with some text" },
-              { type: "text", content: "Child box 2" },
-              { type: "text", content: "Child box 3" },
-              { type: "grid", grid: {
-                  rows: 2,
-                  cols: 1,
-                  cells: [
-                    { type: "text", content: "Nested grid: row 1" },
-                    { type: "text", content: "Nested grid: row 2" }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        { type: "text", content: "Another text box" },
-        { type: "grid", grid: {
-            rows: 1,
-            cols: 2,
-            cells: [
-              { type: "text", content: "Single row left" },
-              { type: "text", content: "Single row right" }
-            ]
-          }
-        },
-        { type: "text", content: "Some more text content here to show ellipsis behavior." },
-        { type: "text", content: "Box 6" },
-        { type: "text", content: "Box 7" },
-        { type: "text", content: "Box 8" },
-        { type: "text", content: "Box 9" }
-      ]
-    };
+    /*********************************************************************
+     * Data structure and Global Variables:
+     *
+     * We represent each box as an object:
+     *   { content: string, children: [] }
+     *
+     * The currently displayed grid is tracked on a stack (gridStack).
+     * The top (last element) of gridStack is the current grid.
+     *********************************************************************/
+    let isEditMode = false;
+    let mainRows = 3;
+    let mainCols = 3;
     
-    // Grid navigation stack for breadcrumbs.
-    // Each item in the stack is an object { grid: <grid-data>, label: <breadcrumb label> }.
-    const gridStack = [{ grid: gridsData, label: "Home" }];
-
-    /**
-     * Renders the breadcrumb trail based on the current gridStack.
-     */
-    function renderBreadcrumb() {
-      const breadcrumbContainer = document.getElementById("breadcrumb");
-      breadcrumbContainer.innerHTML = '';
-      gridStack.forEach((item, index) => {
-        const li = document.createElement('li');
-        li.textContent = item.label;
-        li.addEventListener('click', () => {
-          // When clicked, remove grids off the stack back to the clicked item.
-          while (gridStack.length > index + 1) {
-            gridStack.pop();
-          }
-          renderGrid();
-          renderBreadcrumb();
-        });
-        breadcrumbContainer.appendChild(li);
-      });
+    // The gridStack holds arrays of box objects.
+    // gridStack[0] is the main grid. Each box always has a children array.
+    let gridStack = [];
+    
+    // Create an array of "rows x cols" boxes for the main grid.
+    function createEmptyMainGrid(rows, cols) {
+      const grid = [];
+      for (let i = 0; i < rows * cols; i++) {
+        grid.push({ content: "", children: [] });
+      }
+      return grid;
     }
-
-    /**
-     * Renders the current active grid from the top of gridStack.
-     */
+    
+    // Initialize with the main grid.
+    gridStack.push(createEmptyMainGrid(mainRows, mainCols));
+    
+    /*********************************************************************
+     * Rendering Functions & Controls Update:
+     *********************************************************************/
+    
+    // Render the current grid (either the main view or a nested view).
     function renderGrid() {
       const gridContainer = document.getElementById("gridContainer");
-      const currentGrid = gridStack[gridStack.length - 1].grid;
-      
-      // Set the grid template based on current grid's col count.
-      gridContainer.style.gridTemplateColumns = `repeat(${currentGrid.cols}, 1fr)`;
-      gridContainer.innerHTML = '';
-      
-      // Basic iteration over the cells.
-      currentGrid.cells.forEach((cell, index) => {
-        const box = document.createElement('div');
+      const currentGrid = gridStack[gridStack.length - 1];
+    
+      // Update controls based on current view:
+      const mainControls = document.getElementById("mainControls");
+      const nestedControls = document.getElementById("nestedControls");
+      if (gridStack.length === 1) {
+        // At top level: show main controls.
+        mainControls.style.display = "flex";
+        nestedControls.style.display = "none";
+        gridContainer.style.gridTemplateColumns = `repeat(${mainCols}, 1fr)`;
+      } else {
+        // In nested (drill-down) view, use a default 3-column layout.
+        mainControls.style.display = "none";
+        nestedControls.style.display = "flex";
+        gridContainer.style.gridTemplateColumns = "repeat(3, 1fr)";
+      }
+    
+      // Clear existing grid content.
+      gridContainer.innerHTML = "";
+    
+      // Render every box.
+      currentGrid.forEach((boxData, index) => {
+        const box = document.createElement("div");
         box.className = "grid-box";
-        
-        // If it's a text cell, simply put the content.
-        if (cell.type === "text") {
-          box.textContent = cell.content;
-          box.classList.add("text-content");  // Non-clickable style
-        } 
-        // If the cell is a nested grid cell, display an indicator.
-        else if (cell.type === "grid") {
-          box.textContent = `Open Grid (${index + 1})`;
-          // Add click event so that clicking the box navigates into its grid.
-          box.addEventListener('click', () => {
-            gridStack.push({ grid: cell.grid, label: `Grid ${index + 1}` });
-            renderGrid();
-            renderBreadcrumb();
-          });
-        }
+    
+        // Create the box content element.
+        const contentDiv = document.createElement("div");
+        contentDiv.className = "box-content";
+        contentDiv.textContent = boxData.content || "Click to add text";
+    
+        // In edit mode, allow double-click editing.
+        contentDiv.addEventListener("dblclick", (e) => {
+          e.stopPropagation();
+          if (!isEditMode) return;
+          contentDiv.contentEditable = true;
+          contentDiv.classList.add("editing");
+          contentDiv.focus();
+          // When editing is finished, update the box data.
+          contentDiv.addEventListener(
+            "blur",
+            () => {
+              contentDiv.contentEditable = false;
+              contentDiv.classList.remove("editing");
+              boxData.content = contentDiv.textContent;
+            },
+            { once: true }
+          );
+        });
+    
+        box.appendChild(contentDiv);
+    
+        // In non-edit mode, a click drills down into the box’s children.
+        box.addEventListener("click", (e) => {
+          // In edit mode, clicking should not drill down.
+          if (isEditMode) return;
+          // "Drill down" even if children array is empty so that nested boxes
+          // can be added using the Add Box button.
+          gridStack.push(boxData.children);
+          renderGrid();
+        });
+    
         gridContainer.appendChild(box);
       });
     }
     
-    // Initial render of both breadcrumb and grid.
-    renderBreadcrumb();
+    // Go back to the previous (parent) grid.
+    function goBack() {
+      if (gridStack.length > 1) {
+        gridStack.pop();
+        renderGrid();
+      }
+    }
+    
+    // Add a new box at the current (nested) level.
+    // (For the main grid, box creation is done via the update grid control.)
+    function addBox() {
+      const currentGrid = gridStack[gridStack.length - 1];
+      currentGrid.push({ content: "", children: [] });
+      renderGrid();
+    }
+    
+    // Toggle edit mode on and off.
+    function toggleEditMode() {
+      isEditMode = !isEditMode;
+      const toggleBtn = document.getElementById("toggleEditMode");
+      toggleBtn.textContent = isEditMode ? "Exit Edit Mode" : "Enter Edit Mode";
+      renderGrid();
+    }
+    
+    /*********************************************************************
+     * Event Listeners: 
+     *********************************************************************/
+    
+    // Update grid (main grid only).
+    document.getElementById("updateGrid").addEventListener("click", () => {
+      if (gridStack.length !== 1) return; // Only update the main grid.
+      mainRows = parseInt(document.getElementById("rowsInput").value, 10);
+      mainCols = parseInt(document.getElementById("colsInput").value, 10);
+      // Recreate the main grid.
+      gridStack[0] = createEmptyMainGrid(mainRows, mainCols);
+      renderGrid();
+    });
+    
+    // Global toggle for edit mode.
+    document.getElementById("toggleEditMode").addEventListener("click", toggleEditMode);
+    
+    // Controls for nested view.
+    document.getElementById("backButton").addEventListener("click", goBack);
+    document.getElementById("addBoxButton").addEventListener("click", addBox);
+    
+    // Initial render.
     renderGrid();
   </script>
 </body>
