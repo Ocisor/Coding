@@ -71,4 +71,4 @@ anim = animation.FuncAnimation(fig, animate, init_func=init,
 plt.show()
 
 # Uncomment to save the animation as gif video file
-anim.save('C:/Users/jbamf/OneDrive/Desktop/Blender/Renders/LorenzAttractor.gif', writer=animation.PillowWriter(fps=20))
+#anim.save('C:/Users/jbamf/OneDrive/Desktop/Blender/Renders/LorenzAttractor.gif', writer=animation.PillowWriter(fps=20))
