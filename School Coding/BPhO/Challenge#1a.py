@@ -12,19 +12,18 @@ def refractiveIndex():
     b2 = 0.0200179144
     b3 = 103.560653
     combinedCoef = (a1/(1-b1))+(a2/(1-b2))+(a3/(1-b3))
-    values = []
-    λ = math.sqrt(((n**n)-1)/(combinedCoef))
-    
-    for i in range(1527700,1486000,-417):
-        print(i)
-        #n = i/1000000
-        #λ = math.sqrt(((n**n)-1)/(combinedCoef))
-        #values.append([n,λ])
-    print(values)
+    nValues = []
+    λValues = []
+    for i in range(1486000,1527700,417):
+        n = i/1000000
+        λ = math.sqrt(((n**n)-1)/(combinedCoef))
+        nValues.append(n)
+        λValues.append(λ)
+    return nValues, λValues
 
-refractiveIndex()
-#plt.plot([1, 2, 3, 4]) #Automatically assumes these are y values. Add a second array for x values
-#plt.plot(1,2) #This plot a second line with these values alongside the first line.
-#plt.ylabel('n')
-#plt.xlabel('λ /nm')
-#plt.show()
+n,λ = refractiveIndex()
+
+plt.plot(n,λ) #This plot a second line with these values alongside the first line.
+plt.ylabel('n')
+plt.xlabel('λ /nm')
+plt.show()
