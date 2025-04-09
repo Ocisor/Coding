@@ -19,7 +19,6 @@ def refractiveIndex():
     return nValues, λValues
 
 n,λ = refractiveIndex()
-print(n, "\n", λ)
 plt.plot(λ, n) #This plot a second line with these values alongside the first line.
 plt.ylabel('n')
 plt.xlabel('λ /nm')
