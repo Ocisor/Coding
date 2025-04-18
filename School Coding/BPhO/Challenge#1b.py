@@ -29,8 +29,16 @@ for frequency in range(1,1000):
     indexArray.append(math.sqrt(1+math.sqrt(1/(1.731-0.261*((frequency/(10**3))**2)))))
 
 #Implementing the CIE colour matching algorithm based on the CIE 1931 colour model (although they spelt it color because they are american :O )
-def freqToHexCode(f):
+def freqToHexCode(f, n):
+    c = 3*(10**8)
     #First convert the frequency to a wavelength
+    wavelength = c / (n * f)
+    if wavelength < 442:
+        x1 = 0.0624 * (wavelength - 442)
+    else:
+        x1 = 0.0374 * (wavelength - 442)
+    x2
+    x3
 
 
 
