@@ -33,7 +33,9 @@ def freqToHexCode(f, n):
 
     #Then calculate the luminosity ( Y )
     if wavelength < 568.8:
-        
+        y1 = 0.0213 * (wavelength - 568.8)
+    else:
+        y1 = 0.0247 * (wavelength - 568.8)
 
 
 
