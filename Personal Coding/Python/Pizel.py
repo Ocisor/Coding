@@ -47,10 +47,12 @@ class Panel:
         self.canvas = tk.Canvas(self.window, width=size, height=size,
                                 bg='black', highlightthickness=0)
         self.canvas.pack()
+        self.visible = False
 
     def render(self, spec, title, x, y):
         size = self.settings['ROOM_SIZE']
-        self.window.geometry(f"{size}x{size}+{x}+{y}")
+        if not self.visible or self.window.geometry() != f"{size}x{size}+{x}+{y}":
+            self.window.geometry(f"{size}x{size}+{x}+{y}")
         self.window.title(title)
         self.canvas.delete('all')
         size = self.settings['ROOM_SIZE']
@@ -79,6 +81,17 @@ class Panel:
         if side == 'Right':  return (size, 0, size, size)
         if side == 'Up':     return (0, 0, size, 0)
         if side == 'Down':   return (0, size, size, size)
+    
+    def show(self):
+        if not self.visible:
+            self.window.update_idletasks()  # Prepare window before showing
+            self.window.deiconify()
+            self.visible = True
+    
+    def hide(self):
+        if self.visible:
+            self.window.withdraw()
+            self.visible = False
 
 
 class Player:
@@ -180,7 +193,7 @@ class Game:
         self._countdown()
 
     def _countdown(self):
-        count = 3
+        count = 1
         cd = tk.Toplevel()
         def tick():
             nonlocal count
@@ -246,6 +259,7 @@ class Game:
         return self.panels[2]
 
     def _show(self):
+        # Prepare all windows first before showing/hiding any
         rels = [-2, -1, 0, 1, 2]
         for slot, rel in enumerate(rels):
             idx = self.current + rel
@@ -253,10 +267,17 @@ class Game:
             if 0 <= idx < len(self.specs):
                 x, y = self.coords[idx]
                 pnl.render(self.specs[idx], f"Room {idx}", x, y)
-                pnl.window.deiconify()
-                if rel == 0: pnl.window.focus_force()
+            
+        # Then show or hide windows as needed
+        for slot, rel in enumerate(rels):
+            idx = self.current + rel
+            pnl = self.panels[slot]
+            if 0 <= idx < len(self.specs):
+                pnl.show()
+                if rel == 0: 
+                    pnl.window.focus_force()
             else:
-                pnl.window.withdraw()
+                pnl.hide()
 
     def change(self, new_idx):
         self.current = new_idx
