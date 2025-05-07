@@ -18,7 +18,7 @@ body {
 
 #title {
     /* use rgb(240, 240, 240) as the colour after testing*/
-    position: absolute;
+    position: relative;
     background-color: rgb(240, 240, 240);
     text-align: center;
     font-size: 50px;
@@ -36,6 +36,9 @@ body {
 .hBox {
     background-color: bisque;
     float: left;
+    text-decoration: none;  
+    color: inherit;          
+    cursor: pointer; 
 }
 
 .link-text {
