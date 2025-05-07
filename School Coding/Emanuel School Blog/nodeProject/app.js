@@ -10,6 +10,16 @@ app.get('', (req, res) => {
     res.render('base')
 });
 
+
+const exampleRouter = require('./routes/example')
+const userRouter = require('./routes/users')
+
+app.use('/example', exampleRouter)
+app.use('/users', userRouter)
+app.use(express.static("public"));
+ 
+
+//This sets the open port to value of const PORT
 app.listen(PORT, ()=> {
     console.log(`App listening on port ${PORT}`)
 });
