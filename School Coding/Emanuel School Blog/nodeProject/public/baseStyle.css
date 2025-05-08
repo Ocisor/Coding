@@ -14,6 +14,7 @@ body {
     margin-top: 0px;
     margin-left: 0px;
     margin-right: 0px;
+    background-color: rgb(240, 240, 240);
 }
 
 #title {
@@ -29,20 +30,28 @@ body {
 }
 
 #title img {
-    width: 5vw;
+    position: relative;
+    background-color: rgb(240, 240, 240);
+    margin: 0%;
+    width: 100vw;
+    padding: 0px;
+    size: 10px;
 }
 
 /*hCont stands for Header Contents     hBox stands for Header Box*/
-.hBox {
+.navBar {
     background-color: bisque;
-    float: left;
     text-decoration: none;  
     color: inherit;          
     cursor: pointer; 
+    list-style-type: none;
+    text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
-.link-text {
-    text-decoration: none;  
-    color: inherit;          
-    cursor: pointer;         
+.navBar li {
+    display: inline-block;
+    font-size: 20px;
+    padding: 20px;
 }
