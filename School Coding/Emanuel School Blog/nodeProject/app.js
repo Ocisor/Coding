@@ -25,5 +25,5 @@ app.listen(PORT, ()=> {
 });
 
 app.use((req, res, next) => {
-    res.status(404).send("<h1>Error 404</h1>Sorry can't find that!")
+    res.status(404).send("<h1>Error 404</h1>Sorry, this page does not exist.")
 });
